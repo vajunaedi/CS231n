@@ -111,9 +111,13 @@ def svm_loss_vectorized(W, X, y, reg):
     # For matching class
     dW[:,y[i]] -= X[i].T
   '''
+  # Create a 'counter' matrix
   mask = np.zeros((margin.shape[0], margin.shape[1]))
+  # Given a class and an example, increment 1 if margin > 0
   mask[margin > 0] = 1
+  # Sum across columns
   wrong_guesses = np.sum(mask, axis=1)
+  # assign it to the label for each example
   mask[range(num_train), y] = -wrong_guesses
   dW = X.T.dot(mask) / num_train
   # add regularization
